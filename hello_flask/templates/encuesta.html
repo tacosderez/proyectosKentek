@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta de Satisfacción</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+</head>
+<body>
+    <div>
+        <div id="header">
+            <img src="https://kentek.com.mx/Imagenes/kenteklogo.png" alt="" class="logo">
+            <div class="line"></div>
+        </div>
+        <div id="container">
+            <h1>Encuesta de Satisfacción</h1>
+            <form action="/departamento" method="post">
+                <label>Nombre completo:</label><br>
+                <input type="text" name="nombre" required><br><br>
+                
+                <label>¿Cual es tu departamento?</label><br>
+                <label>
+                    <input type="radio" name="departamento" value="Calidad" required> Calidad
+                </label><br>
+                <label>
+                    <input type="radio" name="departamento" value="Entregas"> Entregas
+                </label><br>
+                <label>
+                    <input type="radio" name="departamento" value="Servicio"> Servicio
+                </label><br><br>
+                
+                <input type="submit" value="Siguente">
+            </form>
+        </div>
+    </div>
+    <div id="footer">
+        <h2 style="font-size: small;"><a href="https://kentek.com.mx/Es-Mx.html#Contacto">Contactanos</a>
+        </h2>
+    </div>
+</body>
+</html>

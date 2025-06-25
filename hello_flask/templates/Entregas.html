@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<style>
+    th, td {
+  border:1px solid black;
+}
+.centerAlign{
+    text-align: center;
+}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta de Satisfacción 'Entregas'</title>
+</head>
+<body>
+    <h1>Encuesta de Satisfacción 'Entregas'</h1>
+    <form action="/guardar" method="post">
+        <table style="width:60%">
+            <tr>
+                <th>Entregas</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+            </tr>
+            <tr>
+                <td>Evalua el metodo de entrega del producto de KENTEK - Cliente (1 - Nada, 5 - Muy satisfecdtdo)</td>
+                <td class="centerAlign"><input type="radio" name="Q1" value = 1></td>
+                <td class="centerAlign"><input type="radio" name="Q1" value = 2></td>
+                <td class="centerAlign"><input type="radio" name="Q1" value = 3 required></td>
+                <td class="centerAlign"><input type="radio" name="Q1" value = 4></td>
+                <td class="centerAlign"><input type="radio" name="Q1" value = 5></td>                
+            </tr>
+            <tr>
+                <td>Notificacion Anticipada de Entrega Tarde (1 - Nada, 5 - Muy satisfecdtdo)</td>
+                <td class="centerAlign"><input type="radio" name="Q2" value = 1></td>
+                <td class="centerAlign"><input type="radio" name="Q2" value = 2></td>
+                <td class="centerAlign"><input type="radio" name="Q2" value = 3 required></td>
+                <td class="centerAlign"><input type="radio" name="Q2" value = 4></td>
+                <td class="centerAlign"><input type="radio" name="Q2" value = 5></td>                
+            </tr>
+            <tr>
+                <td>Califica la respuesta de KENTEK a cambios de secuencia del cliente (1 - Nada, 5 - Muy satisfecdtdo)</td>
+                <td class="centerAlign"><input type="radio" name="Q3" value = 1></td>
+                <td class="centerAlign"><input type="radio" name="Q3" value = 2></td>
+                <td class="centerAlign"><input type="radio" name="Q3" value = 3 required></td>
+                <td class="centerAlign"><input type="radio" name="Q3" value = 4></td>
+                <td class="centerAlign"><input type="radio" name="Q3" value = 5></td>                
+            </tr>
+
+            <tr>
+                <th>General</th>
+            </tr>
+            <tr>
+                <td>Califica a KENTEK como proveedor en los ultimos meses</td>
+                <td class="centerAlign"><input type="radio" name="Q4" value = 1></td>
+                <td class="centerAlign"><input type="radio" name="Q4" value = 2></td>
+                <td class="centerAlign"><input type="radio" name="Q4" value = 3 required></td>
+                <td class="centerAlign"><input type="radio" name="Q4" value = 4></td>
+                <td class="centerAlign"><input type="radio" name="Q4" value = 5></td>
+            </tr>
+        </table>
+
+        <br>
+        
+        <label>Comentarios adicionales:</label><br>
+        <textarea name="comentarios"></textarea><br><br>
+        <input type="hidden" name="departamento" value="Entregas">
+
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
