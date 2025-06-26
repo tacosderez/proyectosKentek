@@ -15,17 +15,20 @@
             <h1>Encuesta de Satisfacción</h1>
             <form action="/departamento" method="post">
                 <label>Nombre completo:</label><br>
-                <input type="text" name="nombre" required><br><br>
+                <input type="text" name="nombre" value="{{ session.get('nombre', '') }}" required><br><br>
                 
                 <label>¿Cual es tu departamento?</label><br>
                 <label>
-                    <input type="radio" name="departamento" value="Calidad" required> Calidad
+                    <input type="radio" name="departamento" value="Calidad"
+                    {% if session.get('departamento') == 'Calidad' %}checked{% endif %} required> Calidad
                 </label><br>
                 <label>
-                    <input type="radio" name="departamento" value="Entregas"> Entregas
+                    <input type="radio" name="departamento" value="Entregas"
+                    {% if session.get('departamento') == 'Entregas' %}checked{% endif %} required> Entregas
                 </label><br>
                 <label>
-                    <input type="radio" name="departamento" value="Servicio"> Servicio
+                    <input type="radio" name="departamento" value="Servicio"
+                    {% if session.get('departamento') == 'Servicio' %}checked{% endif %}> Servicio
                 </label><br><br>
                 
                 <input type="submit" value="Siguente">
@@ -33,7 +36,7 @@
         </div>
     </div>
     <div id="footer">
-        <h2 style="font-size: small;"><a href="https://kentek.com.mx/Es-Mx.html#Contacto">Contactanos</a>
+        <h2 style="font-size: small;"><a href="https://kentek.com.mx/Es-Mx.html#Contacto" target="_blank" rel="noopener noreferrer">Contactanos</a>
         </h2>
     </div>
 </body>

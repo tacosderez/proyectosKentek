@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = 'response'
 
 # Simulamos una "base de datos" en memoria
 respuestas = []
@@ -14,10 +15,9 @@ def departamento():
     nombre = request.form['nombre']
     departamento = request.form['departamento']
     
-    respuestas.append({
-        'nombre': nombre,
-        'departamento': departamento,
-    })
+    session['nombre'] = nombre
+    session['departamento'] = departamento
+
     
     if departamento == 'Calidad':
         return redirect(url_for('Calidad'))
@@ -40,10 +40,12 @@ def Servicio():
 
 @app.route('/guardar', methods=['POST'])
 def guardar():
+    nombre = request.form.get('nombre')
     departamento = request.form.get('departamento')
     comentarios = request.form.get('comentarios')
 
     data = {
+        'nombre':nombre,
         'departamento': departamento,
         'comentarios': comentarios
     }
@@ -54,12 +56,14 @@ def guardar():
             'Q2': request.form.get('Q2'),
             'Q3': request.form.get('Q3'),
             'Q4': request.form.get('Q4'),
+            'Q5': request.form.get('Q5'),
         })
     elif departamento == 'Entregas':
         data.update({
             'Q1': request.form.get('Q1'),
             'Q2': request.form.get('Q2'),
             'Q3': request.form.get('Q3'),
+            'Q4': request.form.get('Q4'),
         })
     elif departamento == 'Servicio':
         data.update({
@@ -69,9 +73,11 @@ def guardar():
             'Q4': request.form.get('Q4'),
             'Q5': request.form.get('Q5'),
             'Q6': request.form.get('Q6'),
+            'Q7': request.form.get('Q7'),
         })
 
     respuestas.append(data)
+    session.clear()
     return redirect(url_for('gracias'))
 
 @app.route('/gracias')
