@@ -1,4 +1,15 @@
+import pyodbc
 from flask import Flask, render_template, request, redirect, url_for, session
+
+def get_db_connection():
+    conn = pyodbc.connect(
+        'DRIVER={ODBC Driver 17 for SQL Server};'
+        'SERVER=KPC129\\PruebaJT;'
+        'DATABASE=Encuestas;'
+        'UID=sa;'
+        'PWD=PruebaJT12345;'
+    )
+    return conn
 
 app = Flask(__name__)
 app.secret_key = 'response'
@@ -81,8 +92,35 @@ def guardar():
         })
 
     respuestas.append(data)
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT INTO Respuestas (
+        employee, nombre, departamento,
+        Q1, Q2, Q3, Q4, Q5, Q6, Q7, comentarios
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        session.get('employee'),
+        session.get('nombre'),
+        departamento,
+        request.form.get('Q1'),
+        request.form.get('Q2'),
+        request.form.get('Q3'),
+        request.form.get('Q4'),
+        request.form.get('Q5'),
+        request.form.get('Q6'),
+        request.form.get('Q7'),
+        request.form.get('comentarios')
+    ))
+
+    conn.commit()
+    conn.close()
+    
     session.clear()
     return redirect(url_for('gracias'))
+
 
 @app.route('/gracias')
 def gracias():
