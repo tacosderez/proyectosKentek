@@ -47,3 +47,16 @@ html {
     display: flex;
     flex-direction: row;
 }
+
+.fancyLink {
+    font-size: medium; 
+    color: grey; 
+    text-decoration: none;
+    transition: font-size 0.5s;
+}
+
+.fancyLink:hover {
+    color: blue;
+    font-size: large;
+    text-decoration: underline;
+}

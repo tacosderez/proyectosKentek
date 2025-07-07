@@ -12,9 +12,11 @@ def encuesta():
 
 @app.route('/departamento', methods=['POST'])
 def departamento():
+    employee = request.form['employee']
     nombre = request.form['nombre']
     departamento = request.form['departamento']
     
+    session['employee'] = employee
     session['nombre'] = nombre
     session['departamento'] = departamento
 
@@ -40,11 +42,13 @@ def Servicio():
 
 @app.route('/guardar', methods=['POST'])
 def guardar():
+    employee = request.form.get('employee')
     nombre = request.form.get('nombre')
     departamento = request.form.get('departamento')
     comentarios = request.form.get('comentarios')
 
     data = {
+        'employee':session.get('employee'),
         'nombre':nombre,
         'departamento': departamento,
         'comentarios': comentarios

@@ -14,6 +14,9 @@
         <div id="container">
             <h1>Encuesta de Satisfacción</h1>
             <form action="/departamento" method="post">
+                <label>Numero de Empleado</label><br>
+                <input type="number" name="employee" value="{{session.get('employee', '') }}" required><br><br>
+                
                 <label>Nombre completo:</label><br>
                 <input type="text" name="nombre" value="{{ session.get('nombre', '') }}" required><br><br>
                 
@@ -36,7 +39,8 @@
         </div>
     </div>
     <div id="footer">
-        <h2 style="font-size: small;"><a href="https://kentek.com.mx/Es-Mx.html#Contacto" target="_blank" rel="noopener noreferrer">Contactanos</a>
+        <h2>
+            <a href="https://kentek.com.mx/Es-Mx.html#Contacto" target="_blank" rel="noopener noreferrer" class="fancyLink">Contactanos</a>
         </h2>
     </div>
 </body>
