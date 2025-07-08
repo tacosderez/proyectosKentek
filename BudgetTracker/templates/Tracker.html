@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'trackerStyle.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <h1 class="header">Budget Tracker</h1>
+    </div>
+    <p class="paragraph">Welcome to your own budget tracker, here you can add expenses and keep track of how much money you spend. You can add different comments regarding your expenses, if you want to justify the expense or just say what it is, its up to you. IT'S YOURS!!</p>
+    <table>
+        <tr>
+            <th>Expense</th>
+            <th>Amount</th>
+            <th>Comment</th>
+        </tr>
+        <tr>
+            <th><input type="text" name = 'Expense'></th>
+            <th><input type="number" name = 'Amount'></th>
+            <th><input type="text" name = 'Comment'></th>
+        </tr>
+    </table>
+</body>
+</html>

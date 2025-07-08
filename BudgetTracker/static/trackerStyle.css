@@ -1,0 +1,19 @@
+.header {
+    display: flex;
+    justify-content: center;
+    font-family: "Barlow";
+}
+
+.paragraph {
+    display: flex;
+    justify-content: center;
+    font-family: "Barlow";
+    padding-left: 30%;
+    padding-right: 30%;
+    text-align: center;
+    font-size: large;
+}
+
+html {
+    background-color: blanchedalmond;
+}
