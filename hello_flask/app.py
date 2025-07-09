@@ -18,6 +18,10 @@ app.secret_key = 'response'
 respuestas = []
 
 @app.route('/')
+def generador():
+    return render_template('Generador.html')
+
+@app.route('/encuestas')
 def encuesta():
     return render_template('encuesta.html')
 

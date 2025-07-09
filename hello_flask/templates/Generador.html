@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Generador de Encuestas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css')}}" />
+</head>
+<body onload="displayDate">
+    <div id="header">
+        <img src="https://kentek.com.mx/Imagenes/kenteklogo.png" alt="" class="logo">
+        <div class="line"></div>
+    </div>
+    <div>
+        <h1>Generador de Encuestas</h1>
+    </div>
+    <div>
+        <table class="table">
+            <tr>
+                <th><p id="date"></p></th>
+            </tr>
+        </table>
+        <script>
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+            document.getElementById('date').textContent = formattedDate;
+        </script>
+    </div>
+</body>
+</html>
