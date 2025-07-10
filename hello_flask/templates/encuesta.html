@@ -12,36 +12,15 @@
             <div class="line"></div>
         </div>
         <div id="container">
-            <h1>Encuesta de Satisfacción</h1>
+            <h1>Cual encuesta deseas ver</h1>
             <form action="/departamento" method="post">
-                <label>Numero de Empleado</label><br>
-                <input type="number" name="employee" value="{{session.get('employee', '') }}" required><br><br>
-                
-                <label>Nombre completo:</label><br>
-                <input type="text" name="nombre" value="{{ session.get('nombre', '') }}" required><br><br>
-                
-                <label>¿Cual es tu departamento?</label><br>
-                <label>
-                    <input type="radio" name="departamento" value="Calidad"
-                    {% if session.get('departamento') == 'Calidad' %}checked{% endif %} required> Calidad
-                </label><br>
-                <label>
-                    <input type="radio" name="departamento" value="Entregas"
-                    {% if session.get('departamento') == 'Entregas' %}checked{% endif %} required> Entregas
-                </label><br>
-                <label>
-                    <input type="radio" name="departamento" value="Servicio"
-                    {% if session.get('departamento') == 'Servicio' %}checked{% endif %}> Servicio
-                </label><br><br>
-                
-                <input type="submit" value="Siguente">
+                <div class="bottonesEncuestas">
+                    <input type="submit" name="departamento" value="Calidad" style="width: 100px;">
+                    <input type="submit" name="departamento" value="Entregas" style="width: 100px;">
+                    <input type="submit" name="departamento" value="Servicio" style="width: 100px;">
+                </div>
             </form>
         </div>
-    </div>
-    <div id="footer">
-        <h2>
-            <a href="https://kentek.com.mx/Es-Mx.html#Contacto" target="_blank" rel="noopener noreferrer" class="fancyLink">Contactanos</a>
-        </h2>
     </div>
 </body>
 </html>
