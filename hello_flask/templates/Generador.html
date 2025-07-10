@@ -13,10 +13,10 @@
     <div>
         <h1>Generador de Encuestas</h1>
     </div>
-    <div>
-        <table class="table">
+    <div class="table">
+        <table style="width: 15%;">
             <tr>
-                <th><p id="date"></p></th>
+                <th><p name= "id" id="date"></p></th>
             </tr>
         </table>
         <script>
@@ -24,9 +24,65 @@
             const day = String(today.getDate()).padStart(2, '0');
             const month = String(today.getMonth() + 1).padStart(2, '0');
             const year = today.getFullYear();
-            const formattedDate = `${day}/${month}/${year}`;
-            document.getElementById('date').textContent = formattedDate;
+            const formattedDate = `${day}${month}${year}`;
+            const randomNumber = String(Math.floor(Math.random() * 10000)).padStart(4,'0');
+            const finalOutput = `${formattedDate} - ${randomNumber}`;
+            document.getElementById('date').textContent = finalOutput;
         </script>
     </div>
+    <br><br>
+    <form action="/enviar" method="POST">
+        <div class="table">
+            <table style="width: 15%;">
+                <tr>
+                    <th>Cliente/Planta</th>
+                </tr>
+                <tr>
+                    <td class="justifyContentCenter"><input type="text" name="cliente" required></td>
+                </tr>
+            </table>
+        </div>
+        <br><br>
+        <div class="table">
+            <table style="width: 20%;">
+                <tr>
+                    <th>Correo Calidad</th>
+                </tr>
+                <tr>
+                    <td class="justifyContentCenter"><input type="text" name="mailCalidad" required></td>
+                </tr>
+                <tr>
+                    <th>Correo Entregas</th>
+                </tr>
+                <tr>
+                    <td class="justifyContentCenter"><input type="text" name="mailEntregas" required></td>
+                </tr>
+                <tr>
+                    <th>Correo Servicio</th>
+                </tr>
+                <tr>
+                    <td class="justifyContentCenter"><input type="text" name="mailServicio" required></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div class="justifyContentCenter">
+            <input type="submit" value="Enviar">
+        </div>
+    </form>
+    <div id="message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <form action="/encuestas" method="POST">
+        <div class="justifyContentCenter">
+            <input type="submit" value="Encuestas">
+        </div>
+    </form>
 </body>
 </html>

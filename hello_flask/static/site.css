@@ -93,3 +93,26 @@ th, td {
 .centerAlign{
     text-align: center;
 }
+
+.justifyContentCenter {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+#message {
+    display: flex;
+    justify-content: center;
+    color: rgb(9, 180, 9);
+    font-weight: bold;
+}
+
+.bottonesEncuestas {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 8px;
+    padding-top: 20%;
+    gap: 10px;
+    height: 100px;
+}
