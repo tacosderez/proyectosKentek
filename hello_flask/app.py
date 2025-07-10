@@ -1,5 +1,9 @@
 import pyodbc
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+import smtplib
+from email.message import EmailMessage
+from datetime import datetime
+import random
 
 def get_db_connection():
     conn = pyodbc.connect(
@@ -21,24 +25,62 @@ respuestas = []
 def generador():
     return render_template('Generador.html')
 
-@app.route('/encuestas')
+@app.route('/enviar', methods=['POST'])
+def enviar():
+    cliente = request.form['cliente']
+    email_calidad = request.form['mailCalidad']
+    email_entregas = request.form['mailEntregas']    
+    email_servicio = request.form['mailServicio']
+
+    hoy = datetime.now()
+    codigo_fecha = hoy.strftime("%d%m%y")
+    numero_random = str(random.randint(0,9999)).zfill(4)
+    codigo_final = f"{codigo_fecha} - {numero_random}"
+
+    asunto = f"Encuesta para Cliente {cliente}"
+    cuerpo = f"""
+    Estimado cliente,
+
+    Por favor complete su encuesta utilizando el siguente codigo:
+
+    Codigo: {codigo_final}
+
+    ¡Gracias por su colaboracion!
+    """
+
+    for destinatario in [email_calidad, email_entregas, email_servicio]:
+        enviar_correo(destinatario, asunto, cuerpo)
+
+    flash('Correos enviados con exito')
+    return redirect(url_for('generador'))
+
+def enviar_correo(destinario, asunto, cuerpo):
+    remitente = "jqnterrazas@gmail.com"
+    password = "kvyd zida utla rhrd" 
+
+    msg = EmailMessage()
+    msg['Subject'] = asunto
+    msg['From'] = remitente
+    msg['To'] = destinario
+    msg.set_content(cuerpo)
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(remitente, password)
+            smtp.send_message(msg)
+    except Exception as e:
+        print(f"Error al enviar a {destinario}: {e}")
+
+@app.route('/encuestas', methods=['GET','POST'])
 def encuesta():
     return render_template('encuesta.html')
 
 @app.route('/departamento', methods=['POST'])
 def departamento():
-    employee = request.form['employee']
-    nombre = request.form['nombre']
-    departamento = request.form['departamento']
-    
-    session['employee'] = employee
-    session['nombre'] = nombre
-    session['departamento'] = departamento
-
-    
-    if departamento == 'Calidad':
+    dep = request.form.get('departamento')
+    if dep == 'Calidad':
         return redirect(url_for('Calidad'))
-    elif departamento == 'Entregas':
+    elif dep == 'Entregas':
         return redirect(url_for('Entregas'))
     else:
         return redirect(url_for('Servicio'))
