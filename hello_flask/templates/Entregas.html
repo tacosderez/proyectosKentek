@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-<style>
-</style>
 <head>
     <meta charset="UTF-8">
     <title>Encuesta de Satisfacción 'Entregas'</title>
@@ -16,6 +14,20 @@
         </div>
         <h1>Encuesta de Satisfacción 'Entregas'</h1>
         <form action="/guardar" method="post">
+            <div class="table">
+                <label>Cliente:</label>
+            </div>
+            <div class="table">
+                <input type="text" value="{{ session['cliente'] }}" readonly>
+            </div>
+            <br>
+            <div class="table">
+                <label>ID de encuesta:</label>
+            </div>
+            <div class="table">
+                <input type="text" value="{{ session['codigo_final']}}" readonly>
+            </div>
+            <br><br>
             <div class = "table">
                 <table style="width: 50%;">
                     <tr>
@@ -74,7 +86,6 @@
             <input type="hidden" name="nombre" value="{{ session.get('nombre', '') }}">
 
             <div style="display: flex; gap: 10px;" class = "comentarios">
-                <a href="/encuestas"><button type="button" class="padding">Regresar</button></a>
                 <input type="submit" value="Enviar" class="padding">
             </div>
         </form>
