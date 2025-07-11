@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta de Satisfacción 'Calidad'</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+</head>
+<body>
+    <div>
+        <div id="header">
+            <img src="https://kentek.com.mx/Imagenes/kenteklogo.png" alt="" class="logo">
+            <div class="line"></div>
+        </div>
+        <h1>Encuesta de Satisfacción 'Calidad'</h1>
+        <form action="/guardar" method="post">
+             <div class="table">
+                <label>Cliente:</label>
+            </div>
+            <div class="table">
+                <input type="text" value="{{ session['cliente'] }}" readonly>
+            </div>
+            <br>
+            <div class="table">
+                <label>ID de encuesta:</label>
+            </div>
+            <div class="table">
+                <input type="text" value="{{ session['codigo_final']}}" readonly>
+            </div>
+            <br><br>
+            <div class="table">
+                <table style="width: 50%">
+                    <tr>
+                        <th>Calidad</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                    </tr>
+                    <tr>
+                        <td>Respuesta a Tiempo de KENTEk en Acciones Correctivas (1 - Nada, 5 - Muy satisfecho)</td>
+                        <td class="centerAlign"><input type="radio" name="Q1" value = 1 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q1" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q1" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q1" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q1" value = 5></td>                
+                    </tr>
+                    <tr>
+                        <td>Califica la respuesta ante problemas relacionado con calidad (1 - Nada, 5 - Muy satisfecho)</td>
+                        <td class="centerAlign"><input type="radio" name="Q2" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q2" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q2" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q2" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q2" value = 5></td>                
+                    </tr>
+                    <tr>
+                        <td>Efectividad en la Solucion de Asuntos de Calidad (1 - Nada, 5 - Muy satisfecho)</td>
+                        <td class="centerAlign"><input type="radio" name="Q3" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q3" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q3" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q3" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q3" value = 5></td>                
+                    </tr>
+                    <tr>
+                        <td>Califica la atencion personal del residente, si aplica (1 - Nada, 5 - Muy satisfecho)</td>
+                        <td class="centerAlign"><input type="radio" name="Q4" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q4" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q4" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q4" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q4" value = 5></td>                
+                    </tr>
+                    
+                    <tr>
+                        <th>General</th>
+                    </tr>
+                    <tr>
+                        <td>Califica a KENTEK como proveedor en los ultimos meses</td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 5></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            
+            <label class="comentarios">Comentarios adicionales:</label>
+            <div class="textarea">
+                <textarea name="comentarios"></textarea>
+            </div>
+            <input type="hidden" name="departamento" value="Calidad">
+            <input type="hidden" name="nombre" value="{{ session.get('nombre', '') }}">
+            
+            <div style="display: flex; gap: 10px;" class="comentarios">
+                <a href="/encuestas"><button type="button" class="padding">Regresar</button></a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

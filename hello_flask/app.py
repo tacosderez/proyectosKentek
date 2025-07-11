@@ -32,24 +32,45 @@ def enviar():
     email_entregas = request.form['mailEntregas']    
     email_servicio = request.form['mailServicio']
 
-    hoy = datetime.now()
-    codigo_fecha = hoy.strftime("%d%m%y")
-    numero_random = str(random.randint(0,9999)).zfill(4)
-    codigo_final = f"{codigo_fecha} - {numero_random}"
+    session['cliente'] = cliente
 
-    asunto = f"Encuesta para Cliente {cliente}"
-    cuerpo = f"""
-    Estimado cliente,
+    base_url = "http://localhost:5000"
 
-    Por favor complete su encuesta utilizando el siguente codigo:
+    asunto_calidad = f"Encuesta de Calidad - {cliente}"
+    cuerpo_calidad = f"""
+    Estimado cliente {cliente},
 
-    Codigo: {codigo_final}
+    Por favor complete la encuesta de **Calidad** en el siguente enlace:
 
-    ¡Gracias por su colaboracion!
+    {base_url}/Calidad
+    
+    ¡Gracias por tu tiempo!
     """
 
-    for destinatario in [email_calidad, email_entregas, email_servicio]:
-        enviar_correo(destinatario, asunto, cuerpo)
+    asunto_entregas = f"Encuesta de Entregas - {cliente}"
+    cuerpo_entregas = f"""
+    Estimado cliente {cliente},
+
+    Por favor complete la encuesta de **Entregas** en el siguente enlace:
+
+    {base_url}/Entregas
+    
+    ¡Gracias por tu tiempo!
+    """
+
+    asunto_servicio = f"Encuesta de Servicio - {cliente}"
+    cuerpo_servicio = f"""
+    Estimado cliente {cliente},
+
+    Por favor complete la encuesta de **Servicio** en el siguente enlace:
+
+    {base_url}/Servicio
+    
+    ¡Gracias por tu tiempo!
+    """
+    enviar_correo(email_calidad, asunto_calidad, cuerpo_calidad)
+    enviar_correo(email_entregas, asunto_entregas, cuerpo_entregas)
+    enviar_correo(email_servicio, asunto_servicio, cuerpo_servicio)
 
     flash('Correos enviados con exito')
     return redirect(url_for('generador'))
@@ -78,12 +99,24 @@ def encuesta():
 @app.route('/departamento', methods=['POST'])
 def departamento():
     dep = request.form.get('departamento')
-    if dep == 'Calidad':
-        return redirect(url_for('Calidad'))
-    elif dep == 'Entregas':
-        return redirect(url_for('Entregas'))
+    if dep == 'backCalidad':
+        return redirect(url_for('backCalidad'))
+    elif dep == 'backEntregas':
+        return redirect(url_for('backEntregas'))
     else:
-        return redirect(url_for('Servicio'))
+        return redirect(url_for('backServicio'))
+
+@app.route('/backCalidad')
+def backCalidad():
+    return render_template('backCalidad.html')
+
+@app.route('/backEntregas')
+def backEntregas():
+    return render_template('backEntregas.html')
+
+@app.route('/backServicio')
+def backServicio():
+    return render_template('backServicio.html')
 
 @app.route('/Calidad')
 def Calidad():
@@ -99,14 +132,14 @@ def Servicio():
 
 @app.route('/guardar', methods=['POST'])
 def guardar():
-    employee = request.form.get('employee')
-    nombre = request.form.get('nombre')
-    departamento = request.form.get('departamento')
+    cliente = request.form.get('cliente')
+    codigo = request.form.get('codigo')
+    departamento = request.form.get('dep')
     comentarios = request.form.get('comentarios')
 
     data = {
-        'employee':session.get('employee'),
-        'nombre':nombre,
+        'cliente': cliente,
+        'codigo': codigo,
         'departamento': departamento,
         'comentarios': comentarios
     }
@@ -119,6 +152,7 @@ def guardar():
             'Q4': request.form.get('Q4'),
             'Q5': request.form.get('Q5'),
         })
+        
     elif departamento == 'Entregas':
         data.update({
             'Q1': request.form.get('Q1'),
@@ -126,6 +160,7 @@ def guardar():
             'Q3': request.form.get('Q3'),
             'Q4': request.form.get('Q4'),
         })
+
     elif departamento == 'Servicio':
         data.update({
             'Q1': request.form.get('Q1'),
@@ -144,13 +179,10 @@ def guardar():
 
     cursor.execute('''
         INSERT INTO Respuestas (
-        employee, nombre, departamento,
-        Q1, Q2, Q3, Q4, Q5, Q6, Q7, comentarios
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (
-        session.get('employee'),
-        session.get('nombre'),
         departamento,
+        Q1, Q2, Q3, Q4, Q5, Q6, Q7, comentarios
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
         request.form.get('Q1'),
         request.form.get('Q2'),
         request.form.get('Q3'),
