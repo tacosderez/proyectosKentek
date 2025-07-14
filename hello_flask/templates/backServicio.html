@@ -74,30 +74,30 @@
                     </tr>
                     <tr>
                         <td>Evalue la capacidad de Kentek para atender y ajustarse a los cambios especiales en sus requerimientos (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 5></td>                
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 1 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 2 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 3 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 4 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q5" value = 5 disabled></td>                
                     </tr>
                     <tr>
                         <td>Como Considera a Kentek para nuevos proyectos (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 5></td>                
+                        <td class="centerAlign"><input type="radio" name="Q6" value = 1 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q6" value = 2 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q6" value = 3 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q6" value = 4 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q6" value = 5 disabled></td>                
                     </tr>                            
                     <tr>
                         <th>General</th>
                     </tr>
                     <tr>
                         <td>Califica a KENTEK como proveedor en los ultimos meses</td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 5></td>
+                        <td class="centerAlign"><input type="radio" name="Q7" value = 1 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q7" value = 2 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q7" value = 3 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q7" value = 4 disabled></td>
+                        <td class="centerAlign"><input type="radio" name="Q7" value = 5 disabled></td>
                     </tr>
                 </table>
             </div>
@@ -105,7 +105,7 @@
             
             <label class="comentarios">Comentarios adicionales:</label>
             <div class="textarea">
-                <textarea name="comentarios"></textarea>
+                <textarea name="comentarios" readonly></textarea>
             </div>
             <input type="hidden" name="departamento" value="Servicio">
             <input type="hidden" name="nombre" value="{{ session.get('nombre', '') }}">
