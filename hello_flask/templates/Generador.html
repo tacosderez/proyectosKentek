@@ -16,19 +16,9 @@
     <div class="table">
         <table style="width: 15%;">
             <tr>
-                <th><p name= "id" id="date"></p></th>
+                <th><p id="date">{{ session['codigo_final'] }}</p></th>
             </tr>
         </table>
-        <script>
-            const today = new Date();
-            const day = String(today.getDate()).padStart(2, '0');
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const year = today.getFullYear();
-            const formattedDate = `${day}${month}${year}`;
-            const randomNumber = String(Math.floor(Math.random() * 10000)).padStart(4,'0');
-            const finalOutput = `${formattedDate} - ${randomNumber}`;
-            document.getElementById('date').textContent = finalOutput;
-        </script>
     </div>
     <br><br>
     <form action="/enviar" method="POST">
@@ -70,19 +60,21 @@
             <input type="submit" value="Enviar">
         </div>
     </form>
-    <div id="message">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
     <form action="/encuestas" method="POST">
         <div class="justifyContentCenter">
             <input type="submit" value="Encuestas">
         </div>
     </form>
+    <div id="message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div id="flash-message" class="flash">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 </body>
 </html>

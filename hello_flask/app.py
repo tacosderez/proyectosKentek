@@ -23,6 +23,12 @@ respuestas = []
 
 @app.route('/')
 def generador():
+    hoy = datetime.now()
+    codigo_fecha = hoy.strftime ("%d%m%y")
+    numero_random = str(random.randint(0,9999)).zfill(4)
+    codigo_final = f"{codigo_fecha}_{numero_random}"
+
+    session['codigo_final'] = codigo_final
     return render_template('Generador.html')
 
 @app.route('/enviar', methods=['POST'])
@@ -35,6 +41,7 @@ def enviar():
     session['cliente'] = cliente
 
     base_url = "http://localhost:5000"
+    codigo_final = session ['codigo_final']
 
     asunto_calidad = f"Encuesta de Calidad - {cliente}"
     cuerpo_calidad = f"""
@@ -42,7 +49,7 @@ def enviar():
 
     Por favor complete la encuesta de **Calidad** en el siguente enlace:
 
-    {base_url}/Calidad
+    {base_url}/Calidad?cliente={cliente}&id={codigo_final}
     
     ¡Gracias por tu tiempo!
     """
@@ -53,7 +60,7 @@ def enviar():
 
     Por favor complete la encuesta de **Entregas** en el siguente enlace:
 
-    {base_url}/Entregas
+    {base_url}/Entregas?cliente={cliente}&id={codigo_final}
     
     ¡Gracias por tu tiempo!
     """
@@ -64,7 +71,7 @@ def enviar():
 
     Por favor complete la encuesta de **Servicio** en el siguente enlace:
 
-    {base_url}/Servicio
+    {base_url}/Servicio?cliente={cliente}&id={codigo_final}
     
     ¡Gracias por tu tiempo!
     """
@@ -98,10 +105,10 @@ def encuesta():
 
 @app.route('/departamento', methods=['POST'])
 def departamento():
-    dep = request.form.get('departamento')
-    if dep == 'backCalidad':
+    departamento = request.form.get('departamento')
+    if departamento == 'Calidad':
         return redirect(url_for('backCalidad'))
-    elif dep == 'backEntregas':
+    elif departamento == 'Entregas':
         return redirect(url_for('backEntregas'))
     else:
         return redirect(url_for('backServicio'))
@@ -120,82 +127,69 @@ def backServicio():
 
 @app.route('/Calidad')
 def Calidad():
-    return render_template('Calidad.html')
+    cliente = request.args.get('cliente')
+    codigo_final = request.args.get('id')
+    return render_template('Calidad.html',cliente=cliente, codigo_final=codigo_final)
 
 @app.route('/Entregas')
 def Entregas():
-    return render_template('Entregas.html')
+    cliente = request.args.get('cliente')
+    codigo_final = request.args.get('id')
+    return render_template('Entregas.html',cliente=cliente, codigo_final=codigo_final)
 
 @app.route('/Servicio')
 def Servicio():
-    return render_template('Servicio.html')
+    cliente = request.args.get('cliente')
+    codigo_final = request.args.get('id')
+    return render_template('Servicio.html',cliente=cliente, codigo_final=codigo_final)
 
 @app.route('/guardar', methods=['POST'])
 def guardar():
     cliente = request.form.get('cliente')
     codigo = request.form.get('codigo')
-    departamento = request.form.get('dep')
+    departamento = request.form.get('departamento')
     comentarios = request.form.get('comentarios')
+    fecha = datetime.now().strftime('%Y-%m-%d')
 
-    data = {
-        'cliente': cliente,
-        'codigo': codigo,
-        'departamento': departamento,
-        'comentarios': comentarios
+    preguntas_por_departamento = {
+        'Calidad': ['Q1', 'Q2', 'Q3','Q4'],
+        'Entregas': ['Q5', 'Q6', 'Q7'],
+        'Servicio': ['Q8', 'Q9', 'Q10','Q11', 'Q12', 'Q13'],
     }
-
-    if departamento == 'Calidad':
-        data.update({
-            'Q1': request.form.get('Q1'),
-            'Q2': request.form.get('Q2'),
-            'Q3': request.form.get('Q3'),
-            'Q4': request.form.get('Q4'),
-            'Q5': request.form.get('Q5'),
-        })
-        
-    elif departamento == 'Entregas':
-        data.update({
-            'Q1': request.form.get('Q1'),
-            'Q2': request.form.get('Q2'),
-            'Q3': request.form.get('Q3'),
-            'Q4': request.form.get('Q4'),
-        })
-
-    elif departamento == 'Servicio':
-        data.update({
-            'Q1': request.form.get('Q1'),
-            'Q2': request.form.get('Q2'),
-            'Q3': request.form.get('Q3'),
-            'Q4': request.form.get('Q4'),
-            'Q5': request.form.get('Q5'),
-            'Q6': request.form.get('Q6'),
-            'Q7': request.form.get('Q7'),
-        })
-
-    respuestas.append(data)
 
     conn = get_db_connection()
     cursor = conn.cursor()
+    
+    preguntas = preguntas_por_departamento.get(departamento, []) + ['Q14']
 
-    cursor.execute('''
-        INSERT INTO Respuestas (
-        departamento,
-        Q1, Q2, Q3, Q4, Q5, Q6, Q7, comentarios
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (
-        request.form.get('Q1'),
-        request.form.get('Q2'),
-        request.form.get('Q3'),
-        request.form.get('Q4'),
-        request.form.get('Q5'),
-        request.form.get('Q6'),
-        request.form.get('Q7'),
-        request.form.get('comentarios')
-    ))
+    for pregunta in preguntas:
+        valor = request.form.get(pregunta)
+
+        cursor.execute( '''
+        INSERT INTO Respuestas (ID, Cliente, Departamento, Pregunta, Valor, Fecha)
+        VALUES(?,?,?,?,?,?)              
+        ''',(
+            codigo,
+            cliente,
+            departamento,
+            pregunta,
+            valor,
+            fecha
+        ))
+    
+    if comentarios:
+        cursor.execute('''
+            INSERT INTO Comentarios (ID, Departamento, Comentarios, Fecha)
+            VALUES (?, ?, ?, ?)
+        ''', (
+            codigo,
+            departamento,
+            comentarios,
+            fecha
+        ))
 
     conn.commit()
     conn.close()
-    
     session.clear()
     return redirect(url_for('gracias'))
 

@@ -17,14 +17,16 @@
                 <label>Cliente:</label>
             </div>
             <div class="table">
-                <input type="text" value="{{ session['cliente'] }}" readonly>
+                <input type="text" value="{{ cliente }}" readonly>
+                <input type="hidden" name="cliente" value="{{ cliente }}">
             </div>
             <br>
             <div class="table">
                 <label>ID de encuesta:</label>
             </div>
             <div class="table">
-                <input type="text" value="{{ session['codigo_final']}}" readonly>
+                <input type="text" value="{{ codigo_final }}" readonly>
+                <input type="hidden" name="codigo" value="{{ codigo_final }}">
             </div>
             <br><br>
             <div class="table">
@@ -42,62 +44,62 @@
                     </tr>
                     <tr>
                         <td>Personal Calidad (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q1" value = 1></td >
-                        <td class="centerAlign"><input type="radio" name="Q1" value = 2></td >
-                        <td class="centerAlign"><input type="radio" name="Q1" value = 3 required></td >
-                        <td class="centerAlign"><input type="radio" name="Q1" value = 4></td >
-                        <td class="centerAlign"><input type="radio" name="Q1" value = 5></td >                
+                        <td class="centerAlign"><input type="radio" name="Q8" value = 1></td >
+                        <td class="centerAlign"><input type="radio" name="Q8" value = 2></td >
+                        <td class="centerAlign"><input type="radio" name="Q8" value = 3 required></td >
+                        <td class="centerAlign"><input type="radio" name="Q8" value = 4></td >
+                        <td class="centerAlign"><input type="radio" name="Q8" value = 5></td >                
                     </tr>
                     <tr>
                         <td>Personal Embarques (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q2" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q2" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q2" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q2" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q2" value = 5></td>                
+                        <td class="centerAlign"><input type="radio" name="Q9" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q9" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q9" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q9" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q9" value = 5></td>                
                     </tr>
                     <tr>
                         <td>Personal Servicio al Cliente (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q3" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q3" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q3" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q3" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q3" value = 5></td>                
+                        <td class="centerAlign"><input type="radio" name="Q10" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q10" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q10" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q10" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q10" value = 5></td>                
                     </tr>
                     <tr>
                         <td>Facilidad para Realizar Negociaciones con KENTEK (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q4" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q4" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q4" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q4" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q4" value = 5></td>                
+                        <td class="centerAlign"><input type="radio" name="Q11" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q11" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q11" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q11" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q11" value = 5></td>                
                     </tr>
                     <tr>
                         <td>Evalue la capacidad de Kentek para atender y ajustarse a los cambios especiales en sus requerimientos (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 5></td>                
+                        <td class="centerAlign"><input type="radio" name="Q12" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q12" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q12" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q12" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q12" value = 5></td>                
                     </tr>
                     <tr>
                         <td>Como Considera a Kentek para nuevos proyectos (1 - Nada, 5 - Muy satisfecho)</td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q6" value = 5></td>                
+                        <td class="centerAlign"><input type="radio" name="Q13" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q13" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q13" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q13" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q13" value = 5></td>                
                     </tr>                            
                     <tr>
                         <th>General</th>
                     </tr>
                     <tr>
                         <td>Califica a KENTEK como proveedor en los ultimos meses</td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q7" value = 5></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 5></td>
                     </tr>
                 </table>
             </div>

@@ -17,14 +17,16 @@
                 <label>Cliente:</label>
             </div>
             <div class="table">
-                <input type="text" value="{{ session['cliente'] }}" readonly>
+                <input type="text" value="{{ cliente }}" readonly>
+                <input type="hidden" name="cliente" value="{{ cliente }}">
             </div>
             <br>
             <div class="table">
                 <label>ID de encuesta:</label>
             </div>
             <div class="table">
-                <input type="text" value="{{ session['codigo_final']}}" readonly>
+                <input type="text" value="{{ codigo_final }}" readonly>
+                <input type="hidden" name="codigo" value="{{ codigo_final }}">
             </div>
             <br><br>
             <div class="table">
@@ -75,11 +77,11 @@
                     </tr>
                     <tr>
                         <td>Califica a KENTEK como proveedor en los ultimos meses</td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 1></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 2></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 3 required></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 4></td>
-                        <td class="centerAlign"><input type="radio" name="Q5" value = 5></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 1></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 2></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 3 required></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 4></td>
+                        <td class="centerAlign"><input type="radio" name="Q14" value = 5></td>
                     </tr>
                 </table>
             </div>
