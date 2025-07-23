@@ -149,3 +149,22 @@ td {
     gap: 10px;
     height: 100px;
 }
+
+.generadorTable {
+    display: flex;
+    justify-content: center;
+    height: 70%;
+}
+
+.encuesta {
+    display: flex;
+    justify-content: center;
+    width: 50px;
+}
+
+.sinBordes th,
+.sinBordes td {
+  border: none;
+  display: flex;
+  justify-content: center;
+}

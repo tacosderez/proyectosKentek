@@ -33,38 +33,51 @@
             </table>
         </div>
         <br><br>
-        <div class="table">
-            <table style="width: 20%;">
+        <div class="generadorTable">
+            <table style="width: 30%;">
                 <tr>
                     <th>Correo Calidad</th>
+                    <th>Mensaje</th>
                 </tr>
                 <tr>
-                    <td class="justifyContentCenter"><input type="text" name="mailCalidad" required></td>
+                    <td><input type="text" name="mailCalidad"></td>
+                    <td><textarea name="mensajeCalidad"></textarea></td>
                 </tr>
                 <tr>
                     <th>Correo Entregas</th>
+                    <th>Mensaje</th>
                 </tr>
                 <tr>
-                    <td class="justifyContentCenter"><input type="text" name="mailEntregas" required></td>
+                    <td><input type="text" name="mailEntregas" ></td>
+                    <td><textarea name="mensajeEntregas"></textarea></td>
                 </tr>
                 <tr>
                     <th>Correo Servicio</th>
+                    <th>Mensaje</th>
                 </tr>
                 <tr>
-                    <td class="justifyContentCenter"><input type="text" name="mailServicio" required></td>
+                    <td><input type="text" name="mailServicio" ></td>
+                    <td><textarea name="mensajeServicio"></textarea></td>
                 </tr>
             </table>
         </div>
         <br>
         <div class="justifyContentCenter">
-            <input type="submit" value="Enviar">
-        </div>
+            <table class="sinBordes">
+                <tr>
+                    <th><input type="submit" value="Enviar" class="padding"></th>
+                </tr>
+                <tr><th><th></th></th></tr>
     </form>
-    <form action="/encuestas" method="POST">
-        <div class="justifyContentCenter">
-            <input type="submit" value="Encuestas">
+                <tr>
+                    <th>
+                        <form action="/encuestas" method="POST">
+                            <input type="submit" value="Encuestas" class="gap">
+                        </form>
+                    </th>
+                </tr>
+            </table>
         </div>
-    </form>
     <div id="message">
         {% with messages = get_flashed_messages() %}
             {% if messages %}

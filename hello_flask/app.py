@@ -38,49 +38,31 @@ def enviar():
     email_entregas = request.form['mailEntregas']    
     email_servicio = request.form['mailServicio']
 
+    cuerpo_calidad = request.form['mensajeCalidad']
+    cuerpo_entregas = request.form['mensajeEntregas']
+    cuerpo_servicio = request.form['mensajeServicio']
+
     session['cliente'] = cliente
+    codigo_final = session['codigo_final']
 
     base_url = "http://localhost:5000"
-    codigo_final = session ['codigo_final']
 
     asunto_calidad = f"Encuesta de Calidad - {cliente}"
-    cuerpo_calidad = f"""
-    Estimado cliente {cliente},
-
-    Por favor complete la encuesta de **Calidad** en el siguente enlace:
-
-    {base_url}/Calidad?cliente={cliente}&id={codigo_final}
-    
-    ¡Gracias por tu tiempo!
-    """
-
     asunto_entregas = f"Encuesta de Entregas - {cliente}"
-    cuerpo_entregas = f"""
-    Estimado cliente {cliente},
-
-    Por favor complete la encuesta de **Entregas** en el siguente enlace:
-
-    {base_url}/Entregas?cliente={cliente}&id={codigo_final}
-    
-    ¡Gracias por tu tiempo!
-    """
-
     asunto_servicio = f"Encuesta de Servicio - {cliente}"
-    cuerpo_servicio = f"""
-    Estimado cliente {cliente},
 
-    Por favor complete la encuesta de **Servicio** en el siguente enlace:
+    # Adjuntamos el link a cada mensaje manual
+    cuerpo_calidad += f"\n\nCompleta la encuesta aquí:\n{base_url}/Calidad?cliente={cliente}&id={codigo_final}"
+    cuerpo_entregas += f"\n\nCompleta la encuesta aquí:\n{base_url}/Entregas?cliente={cliente}&id={codigo_final}"
+    cuerpo_servicio += f"\n\nCompleta la encuesta aquí:\n{base_url}/Servicio?cliente={cliente}&id={codigo_final}"
 
-    {base_url}/Servicio?cliente={cliente}&id={codigo_final}
-    
-    ¡Gracias por tu tiempo!
-    """
     enviar_correo(email_calidad, asunto_calidad, cuerpo_calidad)
     enviar_correo(email_entregas, asunto_entregas, cuerpo_entregas)
     enviar_correo(email_servicio, asunto_servicio, cuerpo_servicio)
 
-    flash('Correos enviados con exito')
+    flash('Correos enviados con éxito')
     return redirect(url_for('generador'))
+
 
 def enviar_correo(destinario, asunto, cuerpo):
     remitente = "jqnterrazas@gmail.com"
