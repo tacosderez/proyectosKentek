@@ -1,9 +1,10 @@
 import pyodbc
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 import smtplib
 from email.message import EmailMessage
 from datetime import datetime
 import random
+from urllib.parse import quote, unquote
 
 def get_db_connection():
     conn = pyodbc.connect(
@@ -17,9 +18,6 @@ def get_db_connection():
 
 app = Flask(__name__)
 app.secret_key = 'response'
-
-# Simulamos una "base de datos" en memoria
-respuestas = []
 
 @app.route('/')
 def generador():
@@ -51,10 +49,11 @@ def enviar():
     asunto_entregas = f"Encuesta de Entregas - {cliente}"
     asunto_servicio = f"Encuesta de Servicio - {cliente}"
 
-    # Adjuntamos el link a cada mensaje manual
-    cuerpo_calidad += f"\n\nCompleta la encuesta aquí:\n{base_url}/Calidad?cliente={cliente}&id={codigo_final}"
-    cuerpo_entregas += f"\n\nCompleta la encuesta aquí:\n{base_url}/Entregas?cliente={cliente}&id={codigo_final}"
-    cuerpo_servicio += f"\n\nCompleta la encuesta aquí:\n{base_url}/Servicio?cliente={cliente}&id={codigo_final}"
+    cliente_codificado = quote(cliente)
+
+    cuerpo_calidad += f"\n\nCompleta la encuesta aquí:\n{base_url}/Calidad?cliente={cliente_codificado}&id={codigo_final}"
+    cuerpo_entregas += f"\n\nCompleta la encuesta aquí:\n{base_url}/Entregas?cliente={cliente_codificado}&id={codigo_final}"
+    cuerpo_servicio += f"\n\nCompleta la encuesta aquí:\n{base_url}/Servicio?cliente={cliente_codificado}&id={codigo_final}"
 
     enviar_correo(email_calidad, asunto_calidad, cuerpo_calidad)
     enviar_correo(email_entregas, asunto_entregas, cuerpo_entregas)
@@ -65,8 +64,8 @@ def enviar():
 
 
 def enviar_correo(destinario, asunto, cuerpo):
-    remitente = "jqnterrazas@gmail.com"
-    password = "kvyd zida utla rhrd" 
+    remitente = "noreply@kentek.com.mx"
+    password = "Moz06571" 
 
     msg = EmailMessage()
     msg['Subject'] = asunto
@@ -75,7 +74,9 @@ def enviar_correo(destinario, asunto, cuerpo):
     msg.set_content(cuerpo)
 
     try:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        with smtplib.SMTP('smtp.office365.com', 587) as smtp:
+            smtp.ehlo()
+            smtp.starttls()
             smtp.login(remitente, password)
             smtp.send_message(msg)
     except Exception as e:
@@ -109,19 +110,19 @@ def backServicio():
 
 @app.route('/Calidad')
 def Calidad():
-    cliente = request.args.get('cliente')
+    cliente = unquote(request.args.get('cliente'))
     codigo_final = request.args.get('id')
     return render_template('Calidad.html',cliente=cliente, codigo_final=codigo_final)
 
 @app.route('/Entregas')
 def Entregas():
-    cliente = request.args.get('cliente')
+    cliente = unquote(request.args.get('cliente'))
     codigo_final = request.args.get('id')
     return render_template('Entregas.html',cliente=cliente, codigo_final=codigo_final)
 
 @app.route('/Servicio')
 def Servicio():
-    cliente = request.args.get('cliente')
+    cliente = unquote(request.args.get('cliente'))
     codigo_final = request.args.get('id')
     return render_template('Servicio.html',cliente=cliente, codigo_final=codigo_final)
 
@@ -180,9 +181,99 @@ def guardar():
 def gracias():
     return render_template('gracias.html')
 
-@app.route('/resultados')
+@app.route('/resultados', methods = ['POST', 'GET'])
 def resultados():
-    return {'respuestas': respuestas}
+    fecha_inicio = request.args.get('fecha_inicio')
+    fecha_fin = request.args.get('fecha_fin')
+    resumenes_float = []
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    if fecha_inicio and fecha_fin:
+        try:
+            inicio_dt = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+            find_dt = datetime.strptime(fecha_fin, '%Y-%m-%d')
+
+            if inicio_dt > find_dt:
+                return render_template('resultados.html', resumenes=[], error = "La fecha de inicio no puede ser posterior a la fecha final.")
+            cursor.execute('''
+                SELECT 
+                    ID,
+                    MAX(Cliente),
+                    AVG(CASE WHEN Departamento = 'Calidad' THEN CAST(Valor AS FLOAT) END) AS Calidad,
+                    AVG(CASE WHEN Departamento = 'Entregas' THEN CAST(Valor AS FLOAT) END) AS Entregas,
+                    AVG(CASE WHEN Departamento = 'Servicio' THEN CAST(Valor AS FLOAT) END) AS Servicio,
+                    MIN(Fecha) AS FechaEnvio,
+                    MAX(Fecha) AS FechaRespuesta
+                FROM Respuestas
+                WHERE CONVERT(DATE, Fecha) BETWEEN ? AND ?
+                GROUP BY ID
+                ORDER BY FechaEnvio DESC
+            ''',(fecha_inicio, fecha_fin,))
+        except ValueError:
+            return render_template('resultados.html', resumenes=[], error="Formato de fecha inválido.")
+    else:
+        cursor.execute('''
+            SELECT 
+                ID,
+                MAX(Cliente),
+                AVG(CASE WHEN Departamento = 'Calidad' THEN CAST(Valor AS FLOAT) END) AS Calidad,
+                AVG(CASE WHEN Departamento = 'Entregas' THEN CAST(Valor AS FLOAT) END) AS Entregas,
+                AVG(CASE WHEN Departamento = 'Servicio' THEN CAST(Valor AS FLOAT) END) AS Servicio,
+                MIN(Fecha) AS FechaEnvio,
+                MAX(Fecha) AS FechaRespuesta
+            FROM Respuestas
+            GROUP BY ID
+            ORDER BY FechaEnvio DESC
+        ''',)
+
+    resumenes = cursor.fetchall()
+    resumenes_float = []
+    for r in resumenes:
+        calidad = float(r[2]) if r[2] is not None else 0.0
+        entregas = float(r[3]) if r[3] is not None else 0.0
+        servicio = float(r[4]) if r[4] is not None else 0.0
+        promedio = round((calidad + entregas + servicio) / 3,2)
+
+        resumenes_float.append((
+            r[0],  # ID
+            r[1],
+            calidad,    
+            entregas,
+            servicio,
+            promedio,
+            r[5],  # FechaEnvio
+            r[6],  # FechaRespuesta
+        ))
+
+    conn.close()
+    return render_template('resultados.html', resumenes=resumenes_float)
+
+@app.route('/detalle/<id_encuesta>')
+def detalle(id_encuesta):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT Respuestas.ID, Respuestas.Cliente, Respuestas.Departamento, Preguntas.Numero, Preguntas.Pregunta, Respuestas.Valor, Respuestas.Fecha
+        FROM Respuestas
+        INNER JOIN Preguntas ON Respuestas.Pregunta = Preguntas.Numero
+        WHERE Respuestas.ID = ?
+        ORDER BY CAST(SUBSTRING(Respuestas.Pregunta, 2, LEN(Respuestas.Pregunta)) AS INT), Respuestas.Departamento
+    ''', (id_encuesta,))
+    resultados = cursor.fetchall()
+
+    cursor.execute(''' 
+        SELECT ID, Departamento, Comentarios, Fecha
+        FROM Comentarios
+        WHERE ID = ?
+    ''', (id_encuesta,))
+    comentarios = cursor.fetchall()
+    conn.close()
+    if not resultados:
+        return f"No se encontraron resultados para la encuesta {id_encuesta}", 404
+    
+    return render_template('detalle.html', resultados = resultados, id_encuesta = id_encuesta, comentarios = comentarios)
 
 if __name__ == '__main__':
     app.run(debug=True)

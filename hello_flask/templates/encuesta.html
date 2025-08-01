@@ -3,28 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Encuesta de Satisfacción</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        hr.custom-line {
+            border: none;
+            height: 5px;
+            background-color: #0193cf;
+            opacity: 1;
+            margin: 0;
+        }
+
+        td {
+            opacity: 75%;
+        }
+
+    </style>
 </head>
 <body>
-    <div>
-        <div id="header">
-            <img src="https://kentek.com.mx/Imagenes/kenteklogo.png" alt="" class="logo">
-            <div class="line"></div>
-        </div>
-        <div id="container">
-            <h1>¿Cual encuesta deseas ver?</h1>
+    <header class="text-center my-3">
+        <img src="https://kentek.com.mx/Imagenes/kenteklogo.png" alt="Kentek Logo" class="mx-auto d-block" style="max-width: 200px; height: auto;">
+        <br>
+        <hr class="custom-line" />
+    </header>
+    <div class="container mt-5">
+        <h1 class="text-center">¿Cual encuesta deseas ver?</h1>
+        <br><br>
+        <div class="text-center">
             <form action="/departamento" method="post">
-                <div class="bottonesEncuestas">
-                    <input type="submit" name="departamento" value="Calidad" style="width: 100px;">
-                    <input type="submit" name="departamento" value="Entregas" style="width: 100px;">
-                    <input type="submit" name="departamento" value="Servicio" style="width: 100px;">
-                </div>
+                <input type="submit" name="departamento" value="Calidad" class="btn btn-primary btn-lg">
+                <input type="submit" name="departamento" value="Entregas" class="btn btn-primary btn-lg">
+                <input type="submit" name="departamento" value="Servicio" class="btn btn-primary btn-lg">
             </form>
         </div>
-    </div>
-    <br><br>
-    <div class="justifyContentCenter">
-        <a href="/"><button class="padding">Regresar</button></a>
+        <br>
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-secondary">Volver al inicio</a>
+        </div>
     </div>
 </body>
 </html>

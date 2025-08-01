@@ -3,91 +3,117 @@
 <head>
     <meta charset="utf-8" />
     <title>Generador de Encuestas</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='site.css')}}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        hr.custom-line {
+            border: none;
+            height: 5px;
+            background-color: #0193cf;
+            opacity: 1;
+            margin: 0;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        td {
+            opacity: 75%;
+        }
+
+    
+    </style>
 </head>
-<body onload="displayDate">
-    <div id="header">
-        <img src="https://kentek.com.mx/Imagenes/kenteklogo.png" alt="" class="logo">
-        <div class="line"></div>
-    </div>
-    <div>
-        <h1>Generador de Encuestas</h1>
-    </div>
-    <div class="table">
-        <table style="width: 15%;">
-            <tr>
-                <th><p id="date">{{ session['codigo_final'] }}</p></th>
-            </tr>
-        </table>
-    </div>
-    <br><br>
-    <form action="/enviar" method="POST">
-        <div class="table">
-            <table style="width: 15%;">
-                <tr>
-                    <th>Cliente/Planta</th>
-                </tr>
-                <tr>
-                    <td class="justifyContentCenter"><input type="text" name="cliente" required></td>
-                </tr>
-            </table>
-        </div>
-        <br><br>
-        <div class="generadorTable">
-            <table style="width: 30%;">
-                <tr>
-                    <th>Correo Calidad</th>
-                    <th>Mensaje</th>
-                </tr>
-                <tr>
-                    <td><input type="text" name="mailCalidad"></td>
-                    <td><textarea name="mensajeCalidad"></textarea></td>
-                </tr>
-                <tr>
-                    <th>Correo Entregas</th>
-                    <th>Mensaje</th>
-                </tr>
-                <tr>
-                    <td><input type="text" name="mailEntregas" ></td>
-                    <td><textarea name="mensajeEntregas"></textarea></td>
-                </tr>
-                <tr>
-                    <th>Correo Servicio</th>
-                    <th>Mensaje</th>
-                </tr>
-                <tr>
-                    <td><input type="text" name="mailServicio" ></td>
-                    <td><textarea name="mensajeServicio"></textarea></td>
-                </tr>
-            </table>
-        </div>
+<body>
+    <header class="text-center my-3">
+        <img src="https://kentek.com.mx/Imagenes/kenteklogo.png" alt="Kentek Logo" class="mx-auto d-block" style="max-width: 200px;">
         <br>
-        <div class="justifyContentCenter">
-            <table class="sinBordes">
-                <tr>
-                    <th><input type="submit" value="Enviar" class="padding"></th>
-                </tr>
-                <tr><th><th></th></th></tr>
-    </form>
-                <tr>
-                    <th>
-                        <form action="/encuestas" method="POST">
-                            <input type="submit" value="Encuestas" class="gap">
-                        </form>
-                    </th>
-                </tr>
-            </table>
+        <hr class="custom-line" />
+    </header>
+
+    <div class="container">
+        <h1 class="text-center mb-4">Generador de Encuestas</h1>
+
+        <div class="text-center mb-4">
+            <h5><span id="date">{{ session['codigo_final'] }}</span></h5>
         </div>
-    <div id="message">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                <div id="flash-message" class="flash">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+
+        <form action="/enviar" method="POST">
+            <div class="mb-4">
+                <label for="cliente" class="form-label fw-bold">Cliente/Planta:</label>
+                <input type="text" class="form-control border-dark" name="cliente" id="cliente" required>
+            </div>
+
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered border-dark align-middle text-center">
+                    <thead class="table-light table-bordered border-dark text-center align-middle">
+                        <tr>
+                            <th>Correo Calidad</th>
+                            <th>Mensaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="email" name="mailCalidad" class="form-control border-secondary" ></td>
+                            <td><textarea name="mensajeCalidad" rows="4" class="form-control border-secondary"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Correo Entregas</th>
+                            <th>Mensaje</th>
+                        </tr>
+                        <tr>
+                            <td><input type="email" name="mailEntregas" class="form-control border-secondary"></td>
+                            <td><textarea name="mensajeEntregas" rows="4" class="form-control border-secondary"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Correo Servicio</th>
+                            <th>Mensaje</th>
+                        </tr>
+                        <tr>
+                            <td><input type="email" name="mailServicio" class="form-control border-secondary"></td>
+                            <td><textarea name="mensajeServicio" rows="4" class="form-control border-secondary"></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex flex-column align-items-center gap-2 mb-4">
+                <button type="submit" class="btn btn-primary px-5">Enviar</button>
+                    
+        </form>
+                <form action="/encuestas" method="POST">
+                    <button type="submit" class="btn btn-secondary px-4">Encuestas</button>
+                </form>
+
+                <form action="/resultados" method="POST">
+                    <button type="submit" class="btn btn-secondary px-4">Resultados</button>
+                </form>
+            </div>
+
+        <div id="message">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-info text-center" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
     </div>
+
 </body>
 </html>
